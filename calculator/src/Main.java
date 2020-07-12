@@ -6,6 +6,6 @@ public class Main {
 
     private static void setupUi() {
         ui = new UI();
-        ui.show();
+        ui.setVisible(true);
     }
 }
