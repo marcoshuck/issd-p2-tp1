@@ -10,7 +10,10 @@ public class UI extends JFrame {
 
     private MotherboardSelection motherboardSelection;
     private HashMap<String, Integer> motherBoardList;
+
+    private RamSelection ramSelection;
     private HashMap<String, Integer> ramList;
+
     private HashMap<String, Integer> accessoryList;
 
     UI() {
@@ -67,5 +70,8 @@ public class UI extends JFrame {
 
         this.motherboardSelection = new MotherboardSelection(this.motherBoardList.keySet());
         this.add(this.motherboardSelection);
+
+        this.ramSelection = new RamSelection(this.ramList.keySet());
+        this.add(this.ramSelection);
     }
 }
