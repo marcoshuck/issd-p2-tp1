@@ -7,6 +7,8 @@ public class UI extends JFrame {
     private Summary summary;
     private CpuDropdown cpuDropdown;
     private HashMap<String, Integer> cpuList;
+
+    private MotherboardSelection motherboardSelection;
     private HashMap<String, Integer> motherBoardList;
     private HashMap<String, Integer> ramList;
     private HashMap<String, Integer> accessoryList;
@@ -62,5 +64,8 @@ public class UI extends JFrame {
         this.summary = new Summary(this);
         this.cpuDropdown = new CpuDropdown(this.cpuList.keySet());
         this.add(this.cpuDropdown);
+
+        this.motherboardSelection = new MotherboardSelection(this.motherBoardList.keySet());
+        this.add(this.motherboardSelection);
     }
 }
