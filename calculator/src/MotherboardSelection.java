@@ -1,15 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Set;
 
-public class MotherboardSelection extends JPanel {
+public class MotherboardSelection extends JPanel implements ISingleChoiceComponent {
     private ButtonGroup group;
     private JPanel buttonsPanel;
     private JLabel label;
     private Set<String> options;
 
     MotherboardSelection(Set<String> options) {
-        super(new GridLayout(1, 2));
+        super(new GridLayout(1, options.size()));
+        this.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
         this.options = options;
         this.setupComponents();
     }
@@ -26,5 +29,22 @@ public class MotherboardSelection extends JPanel {
             this.group.add(button);
         }
         this.add(this.buttonsPanel);
+    }
+
+    @Override
+    public String Selection() {
+        Enumeration<AbstractButton> buttons = this.group.getElements();
+        for (Iterator<AbstractButton> it = buttons.asIterator(); it.hasNext(); ) {
+            AbstractButton button = it.next();
+            if (button.isSelected()) {
+                return button.getText();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean IsSelected() {
+        return this.group.getSelection() != null;
     }
 }

@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
-public class CpuDropdown extends JPanel {
+public class CpuDropdown extends JPanel implements ISingleChoiceComponent {
     public JLabel label;
     public JComboBox comboBox;
     CpuDropdown(Set<String> cpuList) {
@@ -18,5 +18,15 @@ public class CpuDropdown extends JPanel {
             this.comboBox.addItem(c);
         }
         this.add(this.comboBox);
+    }
+
+    @Override
+    public String Selection() {
+        return this.comboBox.getSelectedItem().toString();
+    }
+
+    @Override
+    public boolean IsSelected() {
+        return true;
     }
 }

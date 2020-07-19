@@ -1,10 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Map;
 
-public class UI extends JFrame {
-    private Summary summary;
+public class UI extends JFrame implements ActionListener {
     private CpuDropdown cpuDropdown;
     private HashMap<String, Integer> cpuList;
 
@@ -14,7 +14,14 @@ public class UI extends JFrame {
     private RamSelection ramSelection;
     private HashMap<String, Integer> ramList;
 
+    private AccessorySelection accessorySelection;
     private HashMap<String, Integer> accessoryList;
+
+    private Calculate calculateBox;
+
+    private JPanel controlBox;
+    private JButton showDialog;
+    private JButton quit;
 
     UI() {
         super("Venta de PC");
@@ -64,7 +71,6 @@ public class UI extends JFrame {
     }
 
     private void setupComponents() {
-        this.summary = new Summary(this);
         this.cpuDropdown = new CpuDropdown(this.cpuList.keySet());
         this.add(this.cpuDropdown);
 
@@ -73,5 +79,59 @@ public class UI extends JFrame {
 
         this.ramSelection = new RamSelection(this.ramList.keySet());
         this.add(this.ramSelection);
+
+        this.accessorySelection = new AccessorySelection(this.accessoryList.keySet());
+        this.add(this.accessorySelection);
+
+        this.calculateBox = new Calculate(this);
+        this.add(this.calculateBox);
+
+        this.controlBox = new JPanel(new GridLayout(1, 2));
+        this.controlBox.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        this.showDialog = new JButton("Mostrar diálogo");
+        this.quit = new JButton("Salir");
+        this.setupActions();
+
+        this.controlBox.add(this.showDialog);
+        this.controlBox.add(this.quit);
+        this.add(this.controlBox);
+    }
+
+    private void setupActions() {
+        this.showDialog.addActionListener(this);
+        this.quit.addActionListener(this);
+    }
+
+    private String getSelectedMicro() {
+        return this.cpuDropdown.Selection();
+    }
+
+    public String calculateFinalPrice() {
+        float sum = 0;
+        sum += this.cpuList.get(this.cpuDropdown.Selection());
+        if (this.motherboardSelection.IsSelected()) {
+            sum += this.motherBoardList.get(this.motherboardSelection.Selection());
+        }
+        if (this.ramSelection.IsSelected()) {
+            sum += this.ramList.get(this.ramSelection.Selection());
+        }
+        for (String item : this.accessorySelection.Selection()) {
+            sum += this.accessoryList.get(item);
+        }
+        return String.format("%.2f", sum);
+    }
+
+    private void createDialog() {
+        JOptionPane.showMessageDialog(this, String.format("Se ha elegido el CPU: %s. El monto final es: $ %s", this.getSelectedMicro(), this.calculateFinalPrice()));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if (actionEvent.getSource().equals(this.quit)) {
+            System.exit(0);
+        }
+        if (actionEvent.getSource().equals(this.showDialog)) {
+            this.createDialog();
+        }
     }
 }
