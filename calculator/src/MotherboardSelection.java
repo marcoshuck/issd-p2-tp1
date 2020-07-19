@@ -34,8 +34,8 @@ public class MotherboardSelection extends JPanel implements ISingleChoiceCompone
     @Override
     public String Selection() {
         Enumeration<AbstractButton> buttons = this.group.getElements();
-        for (Iterator<AbstractButton> it = buttons.asIterator(); it.hasNext(); ) {
-            AbstractButton button = it.next();
+        while(buttons.hasMoreElements()) {
+            AbstractButton button = buttons.nextElement();
             if (button.isSelected()) {
                 return button.getText();
             }
